@@ -12,8 +12,10 @@
     "test:all": "pnpm run test:unit && pnpm run test:e2e"
   },
   "dependencies": {
+    "@dnd-kit/core": "^5.0.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.27.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.19.2",
