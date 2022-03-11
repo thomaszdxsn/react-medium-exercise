@@ -1,8 +1,11 @@
 import type { TreeItem } from "./interface";
 
-export function buildTree<T extends { id: string; parent: string | null }>(
-  items: T[]
-): TreeItem<T>[] {
+interface TreeLike {
+  id: string;
+  parent: string | null;
+}
+
+export function buildTree<T extends TreeLike>(items: T[]): TreeItem<T>[] {
   const roots: TreeItem<T>[] = [];
   const itemMap = new Map();
   items.forEach((item) => {
@@ -30,8 +33,11 @@ export function buildTree<T extends { id: string; parent: string | null }>(
   return roots;
 }
 
-export function getTreeDFSArray() {
-  return [];
+export function getTreeDFSArray<T extends TreeLike>(roots: TreeItem<T>[]) {
+  function flatten<T extends TreeLike>(item: TreeItem<T>): TreeItem<T>[] {
+    return item.children.flatMap((child) => flatten(child));
+  }
+  return roots.map((root) => flatten(root));
 }
 
 export function useFieldTree() {
