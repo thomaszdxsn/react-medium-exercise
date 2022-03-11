@@ -33,8 +33,8 @@ export function buildTree<T extends TreeLike>(items: T[]): TreeItem<T>[] {
   return roots;
 }
 
-export function getTreeDFSArray<T extends TreeLike>(roots: TreeItem<T>[]) {
-  function flatten<T extends TreeLike>(item: TreeItem<T>): TreeItem<T>[] {
+export function getTreeDFSArray<T>(roots: TreeItem<T>[]) {
+  function flatten<T>(item: TreeItem<T>): TreeItem<T>[] {
     return item.children.flatMap((child) => flatten(child));
   }
   return roots.map((root) => flatten(root));
