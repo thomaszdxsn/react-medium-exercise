@@ -1,13 +1,14 @@
-import type { TreeItem } from "./interface";
+import type { TreeItem } from "./interfaces";
 
-interface TreeLike {
+interface TreeNodeLike {
   id: string;
   parent: string | null;
 }
 
-export function buildTree<T extends TreeLike>(items: T[]): TreeItem<T>[] {
+export function buildTree<T extends TreeNodeLike>(items: T[]): TreeItem<T>[] {
   const roots: TreeItem<T>[] = [];
   const itemMap = new Map();
+  const duplicateSet = new Set();
   items.forEach((item) => {
     const treeItem = {
       id: item.id,
@@ -19,6 +20,10 @@ export function buildTree<T extends TreeLike>(items: T[]): TreeItem<T>[] {
     if (treeItem.parent === null) {
       roots.push(treeItem);
     }
+    if (duplicateSet.has(treeItem.id)) {
+      throw new Error("duplicate tree item id");
+    }
+    duplicateSet.add(treeItem.id);
   });
   itemMap.forEach((treeItem) => {
     if (treeItem.parent !== null) {
@@ -33,11 +38,11 @@ export function buildTree<T extends TreeLike>(items: T[]): TreeItem<T>[] {
   return roots;
 }
 
-export function getTreeDFSArray<T>(roots: TreeItem<T>[]) {
+export function flattenTreeByDfs<T>(roots: TreeItem<T>[]) {
   function flatten<T>(item: TreeItem<T>): TreeItem<T>[] {
-    return item.children.flatMap((child) => flatten(child));
+    return [item, ...item.children.flatMap((child) => flatten(child))];
   }
-  return roots.map((root) => flatten(root));
+  return roots.flatMap((root) => flatten(root));
 }
 
 export function useFieldTree() {
