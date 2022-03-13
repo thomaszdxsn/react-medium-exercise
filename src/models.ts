@@ -1,4 +1,5 @@
 import type { TreeItem, Organization, Member, FormValues } from "./interfaces";
+import { useFormContext as originUseFormContext } from "react-hook-form";
 
 interface TreeNodeLike {
   id: string;
@@ -9,6 +10,8 @@ interface DomainData {
   orgs: Organization[];
   members: Member[];
 }
+
+export const useFormContext = () => originUseFormContext<FormValues>();
 
 export function buildTree<T extends TreeNodeLike>(items: T[]): TreeItem<T>[] {
   const roots: TreeItem<T>[] = [];
@@ -58,27 +61,33 @@ export function sortTreeArrayByDfs<T extends TreeNodeLike>(items: T[]) {
 
 export function initFormData(
   { orgs, members }: DomainData,
-  sortByDfs = true
+  sortByDfs = true,
+  ignoreNotExistsMember = true
 ): FormValues {
   const memberMap = new Map(members.map((member) => [member.id, member]));
 
-  const result = orgs.map((org) => ({
-    id: org.id,
-    name: org.name,
-    parent: org.parent,
-    members: org.members.map((memberId) => {
-      const member = memberMap.get(memberId);
-      if (!member) {
-        throw new Error("member is not exists");
-      }
-      return {
-        name: member.name,
-        activated: member.status === "activated",
-        age: member.age,
-        representation: org.representation === memberId,
-      };
-    }),
-  }));
+  const result = orgs.map((org) => {
+    const members = ignoreNotExistsMember
+      ? org.members.filter((m) => memberMap.has(m))
+      : org.members;
+    return {
+      id: org.id,
+      name: org.name,
+      parent: org.parent,
+      members: members.map((memberId) => {
+        const member = memberMap.get(memberId);
+        if (!member) {
+          throw new Error("member is not exists");
+        }
+        return {
+          name: member.name,
+          activated: member.status === "activated",
+          age: member.age,
+          representation: org.representation === memberId,
+        };
+      }),
+    };
+  });
   return { orgs: sortByDfs ? sortTreeArrayByDfs(result) : result };
 }
 

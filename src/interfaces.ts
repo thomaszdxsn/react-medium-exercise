@@ -1,7 +1,7 @@
 export interface Member {
   name: string;
   id: string;
-  age: number;
+  age?: number;
   status: "activated" | "inactivated";
 }
 
@@ -23,7 +23,7 @@ export interface TreeItem<T> {
 
 interface FormMemberField {
   name: string;
-  age: number;
+  age?: number;
   activated: boolean;
   representation: boolean;
 }

@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@dnd-kit/core': ^5.0.1
   '@playwright/test': ^1.19.2
+  '@tailwindcss/forms': ^0.5.0
   '@types/jest': ^27.4.1
   '@types/node': '*'
   '@types/react': ^17.0.33
@@ -28,6 +29,7 @@ dependencies:
 
 devDependencies:
   '@playwright/test': 1.19.2
+  '@tailwindcss/forms': 0.5.0_tailwindcss@3.0.23
   '@types/jest': 27.4.1
   '@types/node': 17.0.21
   '@types/react': 17.0.39
@@ -1162,6 +1164,15 @@ packages:
     resolution: {integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==}
     dependencies:
       '@sinonjs/commons': 1.8.3
+    dev: true
+
+  /@tailwindcss/forms/0.5.0_tailwindcss@3.0.23:
+    resolution: {integrity: sha512-KzWugryEBFkmoaYcBE18rs6gthWCFHHO7cAZm2/hv3hwD67AzwP7udSCa22E7R1+CEJL/FfhYsJWrc0b1aeSzw==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
+    dependencies:
+      mini-svg-data-uri: 1.4.4
+      tailwindcss: 3.0.23_2a12c91f48b4280adc4c14dfe7c50ae2
     dev: true
 
   /@tootallnate/once/1.1.2:
@@ -3278,6 +3289,11 @@ packages:
   /mimic-fn/2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
+    dev: true
+
+  /mini-svg-data-uri/1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
     dev: true
 
   /minimatch/3.0.4:
