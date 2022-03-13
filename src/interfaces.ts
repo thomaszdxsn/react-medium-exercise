@@ -8,9 +8,9 @@ export interface Member {
 export interface Organization {
   name: string;
   id: string;
-  type: "organization";
+  type: "organization"; // only "organization" yet
   parent: string | null;
-  representation: string;
+  representation?: string;
   members: string[];
 }
 
@@ -19,4 +19,22 @@ export interface TreeItem<T> {
   parent: string | null;
   children: TreeItem<T>[];
   item: T;
+}
+
+interface FormMemberField {
+  name: string;
+  age: number;
+  activated: boolean;
+  representation: boolean;
+}
+interface FormOrgField {
+  // ???
+  id: string;
+  parent: string | null;
+  name: string;
+  members: FormMemberField[];
+}
+
+export interface FormValues {
+  orgs: FormOrgField[];
 }
