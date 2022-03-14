@@ -75,9 +75,8 @@ const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
   return (
     <input
       type="checkbox"
-      className="disabled:opacity-50 disabled:cursor-not-allowed"
-      disabled={disabled}
-      {...register(fieldName)}
+      className="disabled:opacity-30 disabled:bg-gray-100 disabled:cursor-not-allowed"
+      {...register(fieldName, { disabled })}
     />
   );
 };
@@ -100,8 +99,15 @@ const MemberFieldSet: React.FC<FieldSetProps> = ({
           <FiX />
         </button>
       </div>
-      <input type="text" {...register(`${name}.name`, { required: true })} />
-      <input type="number" {...register(`${name}.age`)} />
+      <input
+        type="text"
+        autoComplete="off"
+        {...register(`${name}.name`, { required: "this field is required" })}
+      />
+      <input
+        type="number"
+        {...register(`${name}.age`, { valueAsNumber: true })}
+      />
       <input type="checkbox" {...register(`${name}.activated`)} />
       <RepresentationCheckbox name={name} />
     </div>

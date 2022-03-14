@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input:invalid:focus {
+  @apply !border-red-500 ring-red-500;
+}
+
+input:invalid {
+  @apply shadow-xl border-red-500;
+}

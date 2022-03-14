@@ -64,7 +64,11 @@ function ActionFooter() {
 }
 
 function App() {
-  const methods = useForm<FormValues>({ defaultValues });
+  const methods = useForm<FormValues>({
+    defaultValues,
+    shouldUseNativeValidation: true,
+    mode: "onChange",
+  });
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit((formData) => {
     const result = submitFormData(formData);
@@ -75,7 +79,7 @@ function App() {
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
-        <div className="flex flex-col gap-2 h-screen p-2 bg-gray-200">
+        <div className="flex flex-col gap-2 h-screen p-4 bg-gray-200">
           <main className="overflow-y-scroll">
             <CardContainer />
           </main>

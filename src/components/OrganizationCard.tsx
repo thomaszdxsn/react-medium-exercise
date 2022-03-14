@@ -21,8 +21,8 @@ const MembersContainer: React.FC<MembersContainerProps> = ({
 }) => {
   const { control } = useFormContext();
   const { fields, remove, append } = useFieldArray({ control, name: name });
-
-  const onAppend = () => append({ activated: true });
+  const onAppend = () =>
+    append({ activated: true, name: "", age: 0, representation: false });
 
   const appendButton = (
     <button
@@ -69,7 +69,9 @@ const OrganizationCard: React.FC<CardProps> = ({ name, removeSelf }) => {
           <input
             type="text"
             className="w-full"
-            {...register(`${name}.name`, { required: true })}
+            {...register(`${name}.name`, {
+              required: "this field is required",
+            })}
           />
         </label>
       </div>
