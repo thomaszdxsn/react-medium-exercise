@@ -60,7 +60,10 @@ const OrganizationCard: React.FC<CardProps> = ({ name, removeSelf }) => {
   const rowClassName =
     "grid grid-cols-5 gap-2 justify-items-start items-center";
   return (
-    <div className="bg-white p-6 rounded min-h-[100px]">
+    <div
+      className="bg-white p-6 rounded min-h-[100px]"
+      role="organization-card"
+    >
       <div className="flex gap-2">
         <DragHandle />
         <button
@@ -75,6 +78,7 @@ const OrganizationCard: React.FC<CardProps> = ({ name, removeSelf }) => {
           <UniqueInput
             type="text"
             className="w-full"
+            role="organization-name"
             {...register(`${name}.name`, {
               required: "this field is required",
             })}

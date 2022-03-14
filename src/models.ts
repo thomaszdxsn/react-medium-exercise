@@ -3,7 +3,6 @@ import {
   Resolver,
   useFormContext as originUseFormContext,
 } from "react-hook-form";
-import { set } from "lodash";
 
 interface TreeNodeLike {
   id: string;

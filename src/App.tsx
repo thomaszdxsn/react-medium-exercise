@@ -1,27 +1,9 @@
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import OrganizationCard from "./components/OrganizationCard";
-import {
-  resolver,
-  initFormData,
-  submitFormData,
-  useFormContext,
-} from "./models";
+import { resolver, submitFormData, useFormContext } from "./models";
 import Button from "./components/Button";
 import { FiPlus } from "react-icons/fi";
-import type { Member, Organization, FormValues } from "./interfaces";
-
-import orgData from "./data/orgs.json";
-import memberData from "./data/members.json";
-
-import "./App.css";
-
-const defaultValues = initFormData({
-  orgs: orgData.map((org) => ({
-    ...org,
-    members: org.members ?? [],
-  })) as Organization[],
-  members: memberData as Member[],
-});
+import type { FormValues } from "./interfaces";
 
 function CardContainer() {
   const { control } = useFormContext();
@@ -40,6 +22,7 @@ function CardContainer() {
       type="button"
       onClick={onAppend}
       className="border-dashed border-gray-800 border bg-white w-full flex justify-center items-center h-8 hover:opacity-80 shadow hover:shadow-xl"
+      role="append-organization"
     >
       <FiPlus />
     </button>
@@ -58,17 +41,17 @@ function ActionFooter() {
 
   return (
     <div className="flex justify-center gap-2">
-      <Button className={btnClassName} onClick={onCancel}>
+      <Button className={btnClassName} onClick={onCancel} role="cancel-button">
         Cancel
       </Button>
-      <Button className={btnClassName} type="submit">
+      <Button className={btnClassName} type="submit" role="submit-button">
         Submit
       </Button>
     </div>
   );
 }
 
-function App() {
+function App({ defaultValues = { orgs: [] } }: { defaultValues?: FormValues }) {
   const methods = useForm<FormValues>({
     defaultValues,
     shouldUseNativeValidation: true,
