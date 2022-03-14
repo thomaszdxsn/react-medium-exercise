@@ -1,6 +1,6 @@
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import OrganizationCard from "./components/OrganizationCard";
-import { initFormData, useFormContext } from "./models";
+import { initFormData, submitFormData, useFormContext } from "./models";
 import type { Member, Organization, FormValues } from "./interfaces";
 
 import orgData from "./data/orgs.json";
@@ -25,13 +25,44 @@ function CardContainer() {
   return <div className="flex flex-col gap-2">{cards}</div>;
 }
 
+function ActionFooter() {
+  const { reset } = useFormContext();
+  const onCancel = () => reset();
+
+  const btnClassName =
+    "shadow-2xl px-4 py-2 min-w-[200px] bg-white rounded hover:opacity-80";
+
+  return (
+    <div className="flex justify-center gap-2">
+      <button className={btnClassName} onClick={onCancel}>
+        Cancel
+      </button>
+      <button className={btnClassName} type="submit">
+        Submit
+      </button>
+    </div>
+  );
+}
+
 function App() {
   const methods = useForm<FormValues>({ defaultValues });
+  const { handleSubmit } = methods;
+  const onSubmit = handleSubmit((formData) => {
+    const result = submitFormData(formData);
+    console.table(result.orgs);
+    console.table(result.members);
+    alert(JSON.stringify(result, null, 2));
+  });
   return (
     <FormProvider {...methods}>
-      <main className="p-2 h-screen bg-gray-200 overflow-y-scroll">
-        <CardContainer />
-      </main>
+      <form onSubmit={onSubmit}>
+        <div className="flex flex-col gap-2 h-screen p-2 bg-gray-200">
+          <main className="overflow-y-scroll">
+            <CardContainer />
+          </main>
+          <ActionFooter />
+        </div>
+      </form>
     </FormProvider>
   );
 }

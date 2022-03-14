@@ -42,7 +42,6 @@ const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
   const fieldName = `${name}.representation` as const;
   React.useEffect(() => {
     if (representation !== oldRepresentation.current) {
-      console.log({ new: representation, name });
       oldRepresentation.current = representation;
 
 			// reselect other members representation when current
@@ -52,7 +51,6 @@ const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
           getValues(),
           membersNamePath
         );
-        console.log({ membersValue, membersNamePath, values: getValues() });
         membersValue.forEach((member, index) => {
           const representationPath =
             `${membersNamePath}.${index}.representation` as const;
@@ -63,7 +61,6 @@ const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
             setValue(representationPath, false);
           }
         });
-        console.log({ values: getValues() });
       }
     }
   }, [representation, fieldName]);
