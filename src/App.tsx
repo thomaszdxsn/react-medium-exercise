@@ -1,6 +1,8 @@
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import OrganizationCard from "./components/OrganizationCard";
 import { initFormData, submitFormData, useFormContext } from "./models";
+import Button from "./components/Button";
+import { FiPlus } from "react-icons/fi";
 import type { Member, Organization, FormValues } from "./interfaces";
 
 import orgData from "./data/orgs.json";
@@ -18,28 +20,45 @@ const defaultValues = initFormData({
 
 function CardContainer() {
   const { control } = useFormContext();
-  const { fields } = useFieldArray({ control, name: "orgs" });
+  const { fields, append, remove } = useFieldArray({ control, name: "orgs" });
   const cards = fields.map((field, index) => (
-    <OrganizationCard key={field.id} name={`orgs.${index}`} />
+    <OrganizationCard
+      key={field.id}
+      name={`orgs.${index}`}
+      removeSelf={() => remove(index)}
+    />
   ));
-  return <div className="flex flex-col gap-2">{cards}</div>;
+
+  const onAppend = () => append({ name: "", members: [] });
+  const appendButton = (
+    <button
+      type="button"
+      onClick={onAppend}
+      className="bg-white w-full flex justify-center items-center h-8 hover:opacity-80 shadow"
+    >
+      <FiPlus />
+    </button>
+  );
+  return (
+    <div className="flex flex-col gap-2">
+      {cards} {appendButton}
+    </div>
+  );
 }
 
 function ActionFooter() {
   const { reset } = useFormContext();
   const onCancel = () => reset();
-
-  const btnClassName =
-    "shadow-2xl px-4 py-2 min-w-[200px] bg-white rounded hover:opacity-80";
+  const btnClassName = "min-w-[200px]";
 
   return (
     <div className="flex justify-center gap-2">
-      <button className={btnClassName} onClick={onCancel}>
+      <Button className={btnClassName} onClick={onCancel}>
         Cancel
-      </button>
-      <button className={btnClassName} type="submit">
+      </Button>
+      <Button className={btnClassName} type="submit">
         Submit
-      </button>
+      </Button>
     </div>
   );
 }

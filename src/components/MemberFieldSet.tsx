@@ -3,10 +3,12 @@ import { useWatch } from "react-hook-form";
 import { useFormContext } from "../models";
 import type { FormValues } from "../interfaces";
 import DragHandle from "./DragHandle";
+import { FiX } from "react-icons/fi";
 
 interface FieldSetProps {
   className?: string;
   name: `orgs.${number}.members.${number}`;
+  removeSelf: () => void;
 }
 
 interface PresentationCheckboxProps {
@@ -44,7 +46,7 @@ const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
     if (representation !== oldRepresentation.current) {
       oldRepresentation.current = representation;
 
-			// reselect other members representation when current
+      // reselect other members representation when current
       if (representation === true) {
         const membersNamePath = getMembersNamePath(name);
         const membersValue = getMembersFromFormValues(
@@ -80,11 +82,24 @@ const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
   );
 };
 
-const MemberFieldSet: React.FC<FieldSetProps> = ({ className, name }) => {
+const MemberFieldSet: React.FC<FieldSetProps> = ({
+  className,
+  name,
+  removeSelf,
+}) => {
   const { register } = useFormContext();
   return (
     <div className={className}>
-      <DragHandle className="justify-self-end" />
+      <div className="justify-self-end flex gap-1">
+        <DragHandle />
+        <button
+          className="hover:bg-gray-100 px-1"
+          type="button"
+          onClick={removeSelf}
+        >
+          <FiX />
+        </button>
+      </div>
       <input type="text" {...register(`${name}.name`, { required: true })} />
       <input type="number" {...register(`${name}.age`)} />
       <input type="checkbox" {...register(`${name}.activated`)} />
