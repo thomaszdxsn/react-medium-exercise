@@ -23,7 +23,7 @@ export interface TreeItem<T> {
 
 interface FormMemberField {
   name: string;
-  age?: number;
+  age: number | null;
   activated: boolean;
   representation: boolean;
 }

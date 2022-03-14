@@ -1,6 +1,11 @@
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import OrganizationCard from "./components/OrganizationCard";
-import { initFormData, submitFormData, useFormContext } from "./models";
+import {
+  resolver,
+  initFormData,
+  submitFormData,
+  useFormContext,
+} from "./models";
 import Button from "./components/Button";
 import { FiPlus } from "react-icons/fi";
 import type { Member, Organization, FormValues } from "./interfaces";
@@ -34,7 +39,7 @@ function CardContainer() {
     <button
       type="button"
       onClick={onAppend}
-      className="bg-white w-full flex justify-center items-center h-8 hover:opacity-80 shadow"
+      className="border-dashed border-gray-800 border bg-white w-full flex justify-center items-center h-8 hover:opacity-80 shadow hover:shadow-xl"
     >
       <FiPlus />
     </button>
@@ -68,6 +73,7 @@ function App() {
     defaultValues,
     shouldUseNativeValidation: true,
     mode: "onChange",
+    resolver,
   });
   const { handleSubmit } = methods;
   const onSubmit = handleSubmit((formData) => {

@@ -1,9 +1,10 @@
 import React from "react";
 import { useWatch } from "react-hook-form";
+import { FiX } from "react-icons/fi";
 import { useFormContext } from "../models";
 import type { FormValues } from "../interfaces";
+import UniqueInput from "./UniqueInput";
 import DragHandle from "./DragHandle";
-import { FiX } from "react-icons/fi";
 
 interface FieldSetProps {
   className?: string;
@@ -92,21 +93,25 @@ const MemberFieldSet: React.FC<FieldSetProps> = ({
       <div className="justify-self-end flex gap-1">
         <DragHandle />
         <button
-          className="hover:bg-gray-100 px-1"
+          className="hover:bg-gray-100 hover:text-red-500 px-1"
           type="button"
           onClick={removeSelf}
         >
           <FiX />
         </button>
       </div>
-      <input
+      <UniqueInput
         type="text"
         autoComplete="off"
         {...register(`${name}.name`, { required: "this field is required" })}
       />
       <input
         type="number"
-        {...register(`${name}.age`, { valueAsNumber: true })}
+        {...register(`${name}.age`, {
+          valueAsNumber: true,
+          min: { value: 1, message: "age must be great than 0" },
+          max: { value: 1000, message: "age must be less than 1000" },
+        })}
       />
       <input type="checkbox" {...register(`${name}.activated`)} />
       <RepresentationCheckbox name={name} />

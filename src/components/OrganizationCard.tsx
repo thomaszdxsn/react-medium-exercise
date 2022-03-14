@@ -4,6 +4,7 @@ import { FiPlus, FiX } from "react-icons/fi";
 import { useFormContext } from "../models";
 import DragHandle from "./DragHandle";
 import MemberFieldSet from "./MemberFieldSet";
+import UniqueInput from "./UniqueInput";
 
 interface CardProps {
   name: `orgs.${number}`;
@@ -22,11 +23,16 @@ const MembersContainer: React.FC<MembersContainerProps> = ({
   const { control } = useFormContext();
   const { fields, remove, append } = useFieldArray({ control, name: name });
   const onAppend = () =>
-    append({ activated: true, name: "", age: 0, representation: false });
+    append({
+      activated: true,
+      name: "",
+      age: null,
+      representation: false,
+    });
 
   const appendButton = (
     <button
-      className="bg-white border border-gray-100 shadow w-full h-8 flex justify-center items-center"
+      className="bg-blue-500 w-full h-8 flex justify-center items-center shadow-sm text-white hover:shadow-inner hover:opacity-80"
       type="button"
       onClick={onAppend}
     >
@@ -54,19 +60,19 @@ const OrganizationCard: React.FC<CardProps> = ({ name, removeSelf }) => {
   const rowClassName =
     "grid grid-cols-5 gap-2 justify-items-start items-center";
   return (
-    <div className="bg-white p-4 rounded min-h-[200px]">
+    <div className="bg-white p-6 rounded min-h-[100px]">
       <div className="flex gap-2">
         <DragHandle />
         <button
           type="button"
           onClick={removeSelf}
-          className="hover:bg-gray-100 px-1"
+          className="hover:bg-gray-100 hover:text-red-500 px-1"
         >
           <FiX />
         </button>
         <label className="flex gap-2 items-baseline w-full">
           org:
-          <input
+          <UniqueInput
             type="text"
             className="w-full"
             {...register(`${name}.name`, {

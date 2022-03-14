@@ -1,5 +1,9 @@
 import type { TreeItem, Organization, Member, FormValues } from "./interfaces";
-import { useFormContext as originUseFormContext } from "react-hook-form";
+import {
+  Resolver,
+  useFormContext as originUseFormContext,
+} from "react-hook-form";
+import { set } from "lodash";
 
 interface TreeNodeLike {
   id: string;
@@ -82,7 +86,7 @@ export function initFormData(
         return {
           name: member.name,
           activated: member.status === "activated",
-          age: member.age,
+          age: member.age ?? null,
           representation: org.representation === memberId,
         };
       }),
@@ -108,10 +112,11 @@ export function submitFormData(formData: FormValues): DomainData {
         const status: Member["status"] = member.activated
           ? "activated"
           : "inactivated";
+        const age = member.age && ~isNaN(member.age) ? member.age : undefined;
         return {
           id: member.name,
           name: member.name,
-          age: member.age,
+          age,
           status,
         };
       })
@@ -123,6 +128,58 @@ export function submitFormData(formData: FormValues): DomainData {
   };
 }
 
-export function useFieldTree() {
-  return [];
-}
+const validateDuplicateOrgName = (values: FormValues) => {
+  const nameSet = new Set();
+  const duplicateOrgPaths: string[] = [];
+
+  values.orgs.forEach((org, index) => {
+    if (!nameSet.has(org.name)) {
+      nameSet.add(org.name);
+    } else {
+      const name = `orgs.${index}.name` as const;
+      duplicateOrgPaths.push(name);
+    }
+  });
+  return Object.fromEntries(
+    duplicateOrgPaths.map((path) => [
+      path,
+      { type: "duplicate", message: "organization's name must be unique" },
+    ])
+  );
+};
+
+const validateDuplicateMemberName = (values: FormValues) => {
+  const nameSet = new Set();
+  const duplicateMemberPaths: string[] = [];
+
+  values.orgs.forEach((org, index) => {
+    const orgName = `orgs.${index}` as const;
+    org.members.forEach((member) => {
+      if (!nameSet.has(member.name)) {
+        nameSet.add(member.name);
+      } else {
+        const name = `${orgName}.members.${index}.name` as const;
+        duplicateMemberPaths.push(name);
+      }
+    });
+  });
+  return Object.fromEntries(
+    duplicateMemberPaths.map((path) => [
+      path,
+      { type: "duplicate", message: "member's name must be unique" },
+    ])
+  );
+};
+
+export const resolver: Resolver<FormValues> = (values) => {
+  const orgErrors = validateDuplicateOrgName(values);
+  const memberErrors = validateDuplicateMemberName(values);
+
+  return {
+    values,
+    errors: {
+      ...orgErrors,
+      ...memberErrors,
+    },
+  };
+};
