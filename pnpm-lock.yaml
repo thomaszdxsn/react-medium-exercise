@@ -2,6 +2,8 @@ lockfileVersion: 5.3
 
 specifiers:
   '@dnd-kit/core': ^5.0.1
+  '@dnd-kit/sortable': ^6.0.1
+  '@dnd-kit/utilities': ^3.1.0
   '@playwright/test': ^1.19.2
   '@tailwindcss/forms': ^0.5.0
   '@testing-library/jest-dom': ^5.16.2
@@ -26,6 +28,8 @@ specifiers:
 
 dependencies:
   '@dnd-kit/core': 5.0.1_react-dom@17.0.2+react@17.0.2
+  '@dnd-kit/sortable': 6.0.1_@dnd-kit+core@5.0.1+react@17.0.2
+  '@dnd-kit/utilities': 3.1.0_react@17.0.2
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-hook-form: 7.27.1_react@17.0.2
@@ -854,6 +858,18 @@ packages:
       '@dnd-kit/utilities': 3.1.0_react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      tslib: 2.3.1
+    dev: false
+
+  /@dnd-kit/sortable/6.0.1_@dnd-kit+core@5.0.1+react@17.0.2:
+    resolution: {integrity: sha512-FGpRHBcflpwWpSP8bMJ4zNcDywDXssZDJBwGYuHd1RqUU/+JX43pEU0u0OHw06LabEZMOLBbyWoIaZJ0abCOEA==}
+    peerDependencies:
+      '@dnd-kit/core': ^5.0.2
+      react: '>=16.8.0'
+    dependencies:
+      '@dnd-kit/core': 5.0.1_react-dom@17.0.2+react@17.0.2
+      '@dnd-kit/utilities': 3.1.0_react@17.0.2
+      react: 17.0.2
       tslib: 2.3.1
     dev: false
 
