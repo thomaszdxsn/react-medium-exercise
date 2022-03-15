@@ -35,6 +35,7 @@ const MembersContainer: React.FC<MembersContainerProps> = ({
       className="bg-blue-500 w-full h-8 flex justify-center items-center shadow-sm text-white hover:shadow-inner hover:opacity-80"
       type="button"
       onClick={onAppend}
+      role="append-member-button"
     >
       <FiPlus />
     </button>
@@ -69,6 +70,7 @@ const OrganizationCard: React.FC<CardProps> = ({ name, removeSelf }) => {
         <button
           type="button"
           onClick={removeSelf}
+          role="remove-organization-button"
           className="hover:bg-gray-100 hover:text-red-500 px-1"
         >
           <FiX />

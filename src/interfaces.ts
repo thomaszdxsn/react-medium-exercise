@@ -14,6 +14,11 @@ export interface Organization {
   members: string[];
 }
 
+export interface DomainData {
+  orgs: Organization[];
+  members: Member[];
+}
+
 export interface TreeItem<T> {
   id: string;
   parent: string | null;

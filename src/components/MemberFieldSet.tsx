@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, useMemo, useRef, useEffect } from "react";
 import { useWatch } from "react-hook-form";
 import { FiX } from "react-icons/fi";
 import { useFormContext } from "../models";
@@ -34,16 +34,14 @@ function getMembersFromFormValues(
   return formValues[orgField][indexField][membersField];
 }
 
-const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
-  name,
-}) => {
+const RepresentationCheckbox: FC<PresentationCheckboxProps> = ({ name }) => {
   const { register, control, setValue, getValues } = useFormContext();
   const activated = useWatch({ control, name: `${name}.activated` });
-  const disabled = React.useMemo(() => !activated, [activated]);
+  const disabled = useMemo(() => !activated, [activated]);
   const representation = useWatch({ control, name: `${name}.representation` });
-  const oldRepresentation = React.useRef(representation);
+  const oldRepresentation = useRef(representation);
   const fieldName = `${name}.representation` as const;
-  React.useEffect(() => {
+  useEffect(() => {
     if (representation !== oldRepresentation.current) {
       oldRepresentation.current = representation;
 
@@ -67,7 +65,7 @@ const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
       }
     }
   }, [representation, fieldName]);
-  React.useEffect(() => {
+  useEffect(() => {
     // reselect representation when disabled
     if (disabled) {
       setValue(fieldName, false);
@@ -77,25 +75,23 @@ const RepresentationCheckbox: React.FC<PresentationCheckboxProps> = ({
     <input
       type="checkbox"
       className="disabled:opacity-30 disabled:bg-gray-100 disabled:cursor-not-allowed"
+      role="member-representation"
       {...register(fieldName, { disabled })}
     />
   );
 };
 
-const MemberFieldSet: React.FC<FieldSetProps> = ({
-  className,
-  name,
-  removeSelf,
-}) => {
+const MemberFieldSet: FC<FieldSetProps> = ({ className, name, removeSelf }) => {
   const { register } = useFormContext();
   return (
-    <div className={className}>
+    <div className={className} role="member-field-set">
       <div className="justify-self-end flex gap-1">
         <DragHandle />
         <button
           className="hover:bg-gray-100 hover:text-red-500 px-1"
           type="button"
           onClick={removeSelf}
+          role="remove-member-button"
         >
           <FiX />
         </button>
@@ -103,17 +99,23 @@ const MemberFieldSet: React.FC<FieldSetProps> = ({
       <UniqueInput
         type="text"
         autoComplete="off"
+        role="member-name"
         {...register(`${name}.name`, { required: "this field is required" })}
       />
       <input
         type="number"
+        role="member-age"
         {...register(`${name}.age`, {
           valueAsNumber: true,
           min: { value: 1, message: "age must be great than 0" },
           max: { value: 1000, message: "age must be less than 1000" },
         })}
       />
-      <input type="checkbox" {...register(`${name}.activated`)} />
+      <input
+        role="member-activated"
+        type="checkbox"
+        {...register(`${name}.activated`)}
+      />
       <RepresentationCheckbox name={name} />
     </div>
   );

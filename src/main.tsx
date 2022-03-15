@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import type { Member, Organization } from "./interfaces";
+import type { DomainData, Member, Organization } from "./interfaces";
 import orgData from "./data/orgs.json";
 import memberData from "./data/members.json";
 import { initFormData } from "./models";
@@ -19,9 +19,12 @@ const mockData = initFormData({
   members: memberData as Member[],
 });
 
+const onSubmit = (domainData: DomainData) =>
+  alert(JSON.stringify(domainData, null, 2));
+
 ReactDOM.render(
   <React.StrictMode>
-    <App defaultValues={showMock ? mockData : undefined} />
+    <App defaultValues={showMock ? mockData : undefined} onSubmit={onSubmit} />
   </React.StrictMode>,
   document.getElementById("root")
 );

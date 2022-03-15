@@ -1,17 +1,18 @@
-import type { TreeItem, Organization, Member, FormValues } from "./interfaces";
 import {
   Resolver,
   useFormContext as originUseFormContext,
 } from "react-hook-form";
+import type {
+  TreeItem,
+  Organization,
+  Member,
+  FormValues,
+  DomainData,
+} from "./interfaces";
 
 interface TreeNodeLike {
   id: string;
   parent: string | null;
-}
-
-interface DomainData {
-  orgs: Organization[];
-  members: Member[];
 }
 
 export const useFormContext = () => originUseFormContext<FormValues>();
@@ -151,13 +152,13 @@ const validateDuplicateMemberName = (values: FormValues) => {
   const nameSet = new Set();
   const duplicateMemberPaths: string[] = [];
 
-  values.orgs.forEach((org, index) => {
-    const orgName = `orgs.${index}` as const;
-    org.members.forEach((member) => {
+  values.orgs.forEach((org, orgIndex) => {
+    const orgName = `orgs.${orgIndex}` as const;
+    org.members.forEach((member, memberIndex) => {
       if (!nameSet.has(member.name)) {
         nameSet.add(member.name);
       } else {
-        const name = `${orgName}.members.${index}.name` as const;
+        const name = `${orgName}.members.${memberIndex}.name` as const;
         duplicateMemberPaths.push(name);
       }
     });
