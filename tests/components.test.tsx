@@ -11,7 +11,7 @@ test("test append organization", () => {
   expect(screen.queryAllByRole("organization-card")).toHaveLength(1);
 });
 
-test("test cancel form will restore to defaultValues", () => {
+test("test cancel form would restore to defaultValues", () => {
   render(
     <App
       defaultValues={{
