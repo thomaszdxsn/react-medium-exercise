@@ -4,6 +4,15 @@ import {
   useFieldArray,
   FieldError,
 } from "react-hook-form";
+import {
+  DndContext,
+  useSensors,
+  useSensor,
+  PointerSensor,
+  closestCenter,
+  DragEndEvent,
+  DragOverlay,
+} from "@dnd-kit/core";
 import OrganizationCard from "./components/OrganizationCard";
 import { resolver, submitFormData, useFormContext } from "./models";
 import Button from "./components/Button";
@@ -11,6 +20,7 @@ import { FiPlus } from "react-icons/fi";
 import type { DomainData, FormValues } from "./interfaces";
 
 function CardContainer() {
+  const sensors = useSensors(useSensor(PointerSensor));
   const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: "orgs" });
   const cards = fields.map((field, index) => (
@@ -32,10 +42,38 @@ function CardContainer() {
       <FiPlus />
     </button>
   );
+  const onDragEnd = (event: DragEndEvent) => {
+    const activeData = event.active.data.current;
+    const overData = event.over?.data.current;
+    const bothMemberType =
+      activeData?.type === "member" && overData?.type === "member";
+    const isSameContainer =
+      activeData?.sortable.containerId === overData?.sortable.containerId;
+    switch (true) {
+      case bothMemberType && isSameContainer:
+        activeData!["move"](activeData!.index, overData!.index);
+        break;
+      case bothMemberType && !isSameContainer:
+        const field = activeData!["field"];
+        console.log(field);
+        activeData!["remove"](activeData!.index);
+        overData!["insert"](overData!.index, field);
+        break;
+    }
+  };
   return (
-    <div className="flex flex-col gap-2">
-      {cards} {appendButton}
-    </div>
+    <DndContext
+      sensors={sensors}
+      onDragEnd={onDragEnd}
+      collisionDetection={closestCenter}
+    >
+      <div className="flex flex-col gap-2">
+        {cards} {appendButton}
+      </div>
+      <DragOverlay>
+        <div>Hello World</div>
+      </DragOverlay>
+    </DndContext>
   );
 }
 

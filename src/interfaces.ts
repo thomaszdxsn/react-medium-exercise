@@ -1,3 +1,4 @@
+export type SortableItemType = "organization" | "member";
 export interface Member {
   name: string;
   id: string;
@@ -26,13 +27,13 @@ export interface TreeItem<T> {
   item: T;
 }
 
-interface FormMemberField {
+export interface FormMemberField {
   name: string;
   age: number | null;
   activated: boolean;
   representation: boolean;
 }
-interface FormOrgField {
+export interface FormOrgField {
   // ???
   id: string;
   parent: string | null;
@@ -42,4 +43,11 @@ interface FormOrgField {
 
 export interface FormValues {
   orgs: FormOrgField[];
+}
+
+export interface SortableItemProps<T extends FormMemberField | FormOrgField> {
+  index: number;
+  remove: (index: number) => void;
+  insert: (index: number, member: T) => void;
+  move: (from: number, to: number) => void;
 }

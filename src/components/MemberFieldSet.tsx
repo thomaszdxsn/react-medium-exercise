@@ -1,16 +1,26 @@
 import React, { FC, useMemo, useRef, useEffect } from "react";
 import { useWatch } from "react-hook-form";
 import { FiX } from "react-icons/fi";
+import {
+  AnimateLayoutChanges,
+  defaultAnimateLayoutChanges,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { useFormContext } from "../models";
-import type { FormValues } from "../interfaces";
+import type {
+  FormMemberField,
+  FormValues,
+  SortableItemProps,
+} from "../interfaces";
 import UniqueInput from "./UniqueInput";
 import DragHandle from "./DragHandle";
 
-interface FieldSetProps {
+type FieldSetProps = {
   className?: string;
   name: `orgs.${number}.members.${number}`;
-  removeSelf: () => void;
-}
+  field: FormMemberField;
+} & SortableItemProps<FormMemberField>;
 
 interface PresentationCheckboxProps {
   name: `${FieldSetProps["name"]}`;
@@ -81,12 +91,57 @@ const RepresentationCheckbox: FC<PresentationCheckboxProps> = ({ name }) => {
   );
 };
 
-const MemberFieldSet: FC<FieldSetProps> = ({ className, name, removeSelf }) => {
+const animateLayoutChanges: AnimateLayoutChanges = (args) =>
+  args.isSorting || args.wasDragging ? defaultAnimateLayoutChanges(args) : true;
+
+const MemberFieldSet: React.FC<FieldSetProps> = ({
+  className,
+  name,
+  remove,
+  insert,
+  move,
+  index,
+  field,
+}) => {
   const { register } = useFormContext();
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+    isOver,
+  } = useSortable({
+    id: name,
+    animateLayoutChanges,
+    data: {
+      remove,
+      insert,
+      move,
+      index,
+      type: "member" as const,
+      field: field,
+    },
+  });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : undefined,
+    borderTop: isOver ? "2px solid blue" : undefined,
+  };
+  const removeSelf = () => remove(index);
   return (
-    <div className={className} role="member-field-set">
+    <div
+      className={className}
+      style={style}
+      ref={setNodeRef}
+      role="member-field-set"
+    >
       <div className="justify-self-end flex gap-1">
-        <DragHandle />
+        <div {...listeners} {...attributes}>
+          <DragHandle />
+        </div>
         <button
           className="hover:bg-gray-100 hover:text-red-500 px-1"
           type="button"

@@ -1,4 +1,8 @@
 import React from "react";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useFieldArray } from "react-hook-form";
 import { FiPlus, FiX } from "react-icons/fi";
 import { useFormContext } from "../models";
@@ -21,7 +25,10 @@ const MembersContainer: React.FC<MembersContainerProps> = ({
   className,
 }) => {
   const { control } = useFormContext();
-  const { fields, remove, append } = useFieldArray({ control, name: name });
+  const { fields, append, insert, remove, move } = useFieldArray({
+    control,
+    name: name,
+  });
   const onAppend = () =>
     append({
       activated: true,
@@ -40,19 +47,22 @@ const MembersContainer: React.FC<MembersContainerProps> = ({
       <FiPlus />
     </button>
   );
-
   return (
-    <>
+    <SortableContext items={fields} strategy={verticalListSortingStrategy}>
       {fields.map((field, index) => (
         <MemberFieldSet
-          removeSelf={() => remove(index)}
+          insert={insert}
+          remove={remove}
+          move={move}
+          index={index}
           key={field.id}
           className={className}
           name={`${name}.${index}`}
+          field={field}
         />
       ))}
       {appendButton}
-    </>
+    </SortableContext>
   );
 };
 
