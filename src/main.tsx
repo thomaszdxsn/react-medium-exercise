@@ -19,8 +19,11 @@ const mockData = initFormData({
   members: memberData as Member[],
 });
 
-const onSubmit = (domainData: DomainData) =>
-  alert(JSON.stringify(domainData, null, 2));
+const onSubmit = (domainData: DomainData) => {
+  const data = JSON.stringify(domainData, null, 2);
+  console.log(data);
+  alert(data);
+};
 
 ReactDOM.render(
   <React.StrictMode>

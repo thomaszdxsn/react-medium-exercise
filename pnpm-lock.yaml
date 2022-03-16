@@ -15,6 +15,7 @@ specifiers:
   '@vitejs/plugin-react': ^1.0.7
   autoprefixer: ^10.4.2
   jest: ^27.5.1
+  nanoid: ^3.3.1
   postcss: ^8.4.8
   react: ^17.0.2
   react-dom: ^17.0.2
@@ -30,6 +31,7 @@ dependencies:
   '@dnd-kit/core': 5.0.1_react-dom@17.0.2+react@17.0.2
   '@dnd-kit/sortable': 6.0.1_@dnd-kit+core@5.0.1+react@17.0.2
   '@dnd-kit/utilities': 3.1.0_react@17.0.2
+  nanoid: 3.3.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-hook-form: 7.27.1_react@17.0.2
@@ -3461,7 +3463,6 @@ packages:
     resolution: {integrity: sha512-n6Vs/3KGyxPQd6uO0eH4Bv0ojGSUvuLlIHtC3Y0kEO23YRge8H9x1GCzLn28YX0H66pMkxuaeESFq4tKISKwdw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: true
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}

@@ -112,6 +112,7 @@ const MemberFieldSet: React.FC<FieldSetProps> = ({
     transition,
     isDragging,
     isOver,
+    active,
   } = useSortable({
     id: name,
     animateLayoutChanges,
@@ -128,7 +129,10 @@ const MemberFieldSet: React.FC<FieldSetProps> = ({
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : undefined,
-    borderTop: isOver ? "2px solid blue" : undefined,
+    borderTop:
+      isOver && active?.data.current?.["type"] === "member"
+        ? "2px solid blue"
+        : undefined,
   };
   const removeSelf = () => remove(index);
   return (
