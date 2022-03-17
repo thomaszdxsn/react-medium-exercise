@@ -8,26 +8,26 @@ import {
 describe("test buildTree", () => {
   test("test buildTree error when parent is not exists", () => {
     const items = [
-      { id: "1", parent: null },
-      { id: "2", parent: "3" },
+      { identifier: "1", parent: null },
+      { identifier: "2", parent: "3" },
     ];
     expect(() => buildTree(items)).toThrow();
   });
 
-  test("test buildTree error when item id duplicate", () => {
+  test("test buildTree error when item identifier duplicate", () => {
     const items = [
-      { id: "1", parent: null },
-      { id: "1", parent: null },
-      { id: "2", parent: null },
+      { identifier: "1", parent: null },
+      { identifier: "1", parent: null },
+      { identifier: "2", parent: null },
     ];
     expect(() => buildTree(items)).toThrow();
   });
 
   test("test buildTree all roots", () => {
     const items = [
-      { id: "1", parent: null },
-      { id: "2", parent: null },
-      { id: "3", parent: null },
+      { identifier: "1", parent: null },
+      { identifier: "2", parent: null },
+      { identifier: "3", parent: null },
     ];
     const treeRoots = buildTree(items);
 
@@ -37,34 +37,34 @@ describe("test buildTree", () => {
 
   test("test buildTree with children", () => {
     const items = [
-      { id: "1", parent: null },
-      { id: "2", parent: "1" },
-      { id: "3", parent: "2" },
+      { identifier: "1", parent: null },
+      { identifier: "2", parent: "1" },
+      { identifier: "3", parent: "2" },
     ];
     const treeRoots = buildTree(items);
 
     expect(treeRoots).toHaveLength(1);
     let node = treeRoots[0];
-    expect(node.id).toBe("1");
+    expect(node.identifier).toBe("1");
     expect(node.children).toHaveLength(1);
     node = node.children[0];
-    expect(node.id).toBe("2");
+    expect(node.identifier).toBe("2");
     expect(node.children).toHaveLength(1);
     node = node.children[0];
-    expect(node.id).toBe("3");
+    expect(node.identifier).toBe("3");
     expect(node.children).toHaveLength(0);
   });
 
   test("test flattenTreeByDfs", () => {
     const items = [
-      { id: "3", parent: "2" },
-      { id: "1", parent: null },
-      { id: "2", parent: "1" },
+      { identifier: "3", parent: "2" },
+      { identifier: "1", parent: null },
+      { identifier: "2", parent: "1" },
     ];
 
     const treeRoots = buildTree(items);
     const nodes = flattenTreeByDfs(treeRoots);
-    expect(nodes.map((node) => node.id)).toEqual(["1", "2", "3"]);
+    expect(nodes.map((node) => node.identifier)).toEqual(["1", "2", "3"]);
   });
 });
 
@@ -116,7 +116,9 @@ describe("form data", () => {
   ];
   test("init form data", () => {
     const formData = initFormData({ orgs: mockOrgs, members: mockMembers });
-    const org1Members = formData.orgs.find((o) => o.id === "org1")!.members;
+    const org1Members = formData.orgs.find(
+      (o) => o.identifier === "org1"
+    )!.members;
     const member1 = org1Members.find((m) => m.name === "member1")!;
     const member2 = org1Members.find((m) => m.name === "member2")!;
     expect(member1.activated).toBeTruthy();

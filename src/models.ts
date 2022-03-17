@@ -11,11 +11,30 @@ import type {
 } from "./interfaces";
 
 interface TreeNodeLike {
-  id: string;
+  identifier: string;
   parent: string | null;
 }
 
+export const ORG_INDENT_WIDTH = 50;
+export const ORGANIZATION = "organization";
+export const MEMBER = "member";
+
 export const useFormContext = () => originUseFormContext<FormValues>();
+
+export function isAncestor(
+  map: Map<string, TreeNodeLike>,
+  a: TreeNodeLike,
+  b: TreeNodeLike
+) {
+  let parent = b.parent;
+  while (!!parent) {
+    if (parent === a.identifier) {
+      return true;
+    }
+    parent = map.get(parent)?.parent ?? null;
+  }
+  return false;
+}
 
 export function buildTree<T extends TreeNodeLike>(items: T[]): TreeItem<T>[] {
   const roots: TreeItem<T>[] = [];
@@ -23,19 +42,19 @@ export function buildTree<T extends TreeNodeLike>(items: T[]): TreeItem<T>[] {
   const duplicateSet = new Set();
   items.forEach((item) => {
     const treeItem = {
-      id: item.id,
+      identifier: item.identifier,
       parent: item.parent,
       item: item,
       children: [],
     };
-    itemMap.set(treeItem.id, treeItem);
+    itemMap.set(treeItem.identifier, treeItem);
     if (treeItem.parent === null) {
       roots.push(treeItem);
     }
-    if (duplicateSet.has(treeItem.id)) {
+    if (duplicateSet.has(treeItem.identifier)) {
       throw new Error("duplicate tree item id");
     }
-    duplicateSet.add(treeItem.id);
+    duplicateSet.add(treeItem.identifier);
   });
   itemMap.forEach((treeItem) => {
     if (treeItem.parent !== null) {
@@ -75,7 +94,7 @@ export function initFormData(
       ? org.members.filter((m) => memberMap.has(m))
       : org.members;
     return {
-      id: org.id,
+      identifier: org.id,
       name: org.name,
       parent: org.parent,
       members: members.map((memberId) => {
@@ -100,7 +119,7 @@ export function submitFormData(formData: FormValues): DomainData {
   const members: Member[] = [];
   formData.orgs.forEach((org) => {
     orgs.push({
-      id: org.name,
+      id: org.identifier,
       name: org.name,
       parent: org.parent,
       members: org.members.map((m) => m.name),

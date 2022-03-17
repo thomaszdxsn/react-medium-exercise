@@ -14,7 +14,7 @@ test("test cancel form would restore to defaultValues", () => {
         orgs: [
           {
             name: "default value",
-            id: "default value",
+            identifier: "default value",
             parent: null,
             members: [],
           },
@@ -69,7 +69,7 @@ test("test remove organization", () => {
   render(
     <App
       defaultValues={{
-        orgs: [{ name: "org", id: "org", parent: null, members: [] }],
+        orgs: [{ name: "org", identifier: "org", parent: null, members: [] }],
       }}
     />
   );
@@ -86,7 +86,7 @@ test("test append member", () => {
         orgs: [
           {
             name: "default value",
-            id: "default value",
+            identifier: "default value",
             parent: null,
             members: [],
           },
@@ -107,7 +107,7 @@ test("test can remove member", async () => {
         orgs: [
           {
             name: "default value",
-            id: "default value",
+            identifier: "default value",
             parent: null,
             members: [
               {
@@ -138,7 +138,7 @@ test("test uncheck activated make representation disabled & unchecked", async ()
         orgs: [
           {
             name: "default value",
-            id: "default value",
+            identifier: "default value",
             parent: null,
             members: [
               {
@@ -174,7 +174,7 @@ test("test can only check one representation in one organization", async () => {
         orgs: [
           {
             name: "org1",
-            id: "org1",
+            identifier: "org1",
             parent: null,
             members: [
               {
@@ -223,13 +223,13 @@ describe("test form validation", () => {
         defaultValues={{
           orgs: [
             {
-              id: "org",
+              identifier: "org",
               name: "org",
               parent: null,
               members: [],
             },
             {
-              id: "org",
+              identifier: "org",
               name: "org",
               parent: null,
               members: [],
@@ -258,7 +258,7 @@ describe("test form validation", () => {
         defaultValues={{
           orgs: [
             {
-              id: "org",
+              identifier: "org",
               name: "org",
               parent: null,
               members: [

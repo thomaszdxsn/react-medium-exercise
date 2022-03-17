@@ -21,7 +21,7 @@ export interface DomainData {
 }
 
 export interface TreeItem<T> {
-  id: string;
+  identifier: string;
   parent: string | null;
   children: TreeItem<T>[];
   item: T;
@@ -34,8 +34,8 @@ export interface FormMemberField {
   representation: boolean;
 }
 export interface FormOrgField {
-  // ???
-  id: string;
+  // beacause react-hook-form useFieldArray has id already, make two id field wound't work
+  identifier: string;
   parent: string | null;
   name: string;
   members: FormMemberField[];

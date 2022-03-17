@@ -2,20 +2,20 @@
 
 ## Checklist
 
-- [ ] user can modify organization name
-- [ ] user can move organization under the other organization
-- [ ] user can create new organization
-- [ ] user can modify member info
-- [ ] user can move member to other organization
-- [ ] user can create new member
-- [ ] user can set a member as the representation, if the member is activated
+- [x] user can modify organization name
+- [x] user can move organization under the other organization
+- [x] user can create new organization
+- [x] user can modify member info
+- [x] user can move member to other organization
+- [x] user can create new member
+- [x] user can set a member as the representation, if the member is activated
 
 ---
 
-- [ ] must validate
-- [ ] proper validate error infos
-- [ ] cancelable?
-- [ ] submit data transform?
+- [x] must validate
+- [x] proper validate error infos
+- [x] cancelable?
+- [x] submit data transform?
 
 ---
 

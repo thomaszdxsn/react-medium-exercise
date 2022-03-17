@@ -7,7 +7,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useFormContext } from "../models";
+import { MEMBER, useFormContext } from "../models";
 import type {
   FormMemberField,
   FormValues,
@@ -121,7 +121,7 @@ const MemberFieldSet: React.FC<FieldSetProps> = ({
       insert,
       move,
       index,
-      type: "member" as const,
+      type: MEMBER,
       field: field,
     },
   });
