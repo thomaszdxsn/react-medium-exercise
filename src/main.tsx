@@ -8,8 +8,8 @@ import App from "./App";
 
 import "./global.css";
 
-const pathname = window.location.pathname;
-const showMock = pathname.startsWith("/mock");
+const pathname = window.location.search;
+const showMock = pathname.startsWith("?mock");
 
 const mockData = initFormData({
   orgs: orgData.map((org) => ({
